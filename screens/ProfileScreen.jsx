@@ -25,8 +25,4 @@ const styles = StyleSheet.create({
   // Puedes agregar más estilos aquí si lo necesitas
 });
 
-<<<<<<< HEAD
 export default ProfileScreen;
-=======
-export default ProfileScreen;
->>>>>>> cb4f0b4f7e2dab65325df574762a4668ec9e8043

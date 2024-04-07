@@ -3,17 +3,15 @@ import { View, Text, TextInput, StyleSheet, Pressable, Alert } from 'react-nativ
 import { useAuth } from '../context/AuthContext';
 
 function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('aviles');
+  const [password, setPassword] = useState('123');
   const { onLogin } = useAuth();
 
   const handleLogin = async () => {
+
     try {
-      const result = await onLogin(email, password);
-      if (result.error) {
-        // Asume que result tiene una propiedad 'error' y 'msg' cuando hay un error
-        Alert.alert("Error de inicio de sesión", result.msg);
-      }
+      await onLogin(email, password);
+  
     } catch (error) {
       console.log(error);
       Alert.alert("Error de inicio de sesión", "Ha ocurrido un problema al intentar iniciar sesión.");

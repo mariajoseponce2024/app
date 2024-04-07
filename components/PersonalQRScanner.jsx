@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import * as ImagePicker from 'expo-image-picker';
 import { GlobalStateContext } from '../context/GlobalStateContext';
 
 const PersonalQRScanner = () => {

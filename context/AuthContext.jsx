@@ -3,7 +3,7 @@ import axios from "axios";
 import SInfo from 'react-native-sensitive-info'; // Importa react-native-sensitive-info
 
 const TOKEN_KEY = 'token-jwt';
-export const API_URL = 'http://192.168.1.1:8081/'; //cambiar a url de la api
+export const API_URL = 'http://192.168.0.106:8000/api/v1'; //cambiar a url de la api
 const AuthContext = createContext({});
 
 // Valores predeterminados para desarrollo
@@ -48,48 +48,43 @@ export const AuthProvider = ({ children }) => {
         
     };
 
-    const login = async (email, password) => {
-        try {
+    const login = async (username, password) => {
+    
+            const url = `${API_URL}/user/login/`
+            const res = await fetch(url,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    "username":username,
+                    "password":password
+                })
 
-            console.log(`Attempting to login with email: ${email} and password: ${password}`);
-
-            if (email === DUMMY_USER && password === DUMMY_PASS) {
-                console.log("Logging in as admin...");
-
+            })
+            const response = await res.json()
+            if(response.token){
                 setAuthState({
-                    token: DUMMY_TOKEN,
+                    token: response.token,
                     authenticated: true
                 });
-
-                  await SInfo.setItem(TOKEN_KEY, DUMMY_TOKEN, {});
-                  return { data: { token: DUMMY_TOKEN } };
-                } else {
-                  // Si las credenciales no son correctas, retorna un error
-                  return { error: true, msg: "Credenciales incorrectas" };
-                }
-              } catch (e) {
-                return { error: true, msg: e.message || "Error desconocido" };
-              }
-            };
-            
-            //const result = await axios.post(`${API_URL}/auth`, { username, password });
-            //console.log("login result:", result);
+            } 
+            // fetch(`${API_URL}/user/login/`,{
+                
+            //     method:'POST',
+            //     headers:{
+            //         "Content-Type":"application/json"
+            //     },
+            //     body:JSON.stringify({"username":username,"password":password})
+            // })
+            // .then(res=>res.json())
+            // .then(res=>console.log(res))
+            // .catch(error=>console.log(error))
+            // const result = await axios.post(ur, { username, password });
+            // console.log("login result:", result);
+        }
     
-            //setAuthState({
-              //  token: result.data.token,
-                //authenticated: true
-            //});
 
-            //axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
-            // Cambia la manera de almacenar el token
-            //await SInfo.setItem(TOKEN_KEY, result.data.token, {});
-
-            //return result;
-
-        //} catch (e) {
-          //  return { error: true, msg: e.response?.data?.msg || "Error en inicio de sesión" };
-         //};
-    //};
 
     const logout = async () => {
         // Cambia la manera de eliminar el token almacenado
